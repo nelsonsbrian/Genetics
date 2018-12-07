@@ -1,13 +1,12 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import Content from './Content';
 import Header from './Header';
 import Home from './Home';
 import Data from './Data';
 
-  import { Link } from 'react-router-dom';
-  <Link to="/">Home</Link> | <Link to="/newticket">Create Ticket</Link>
+import { Link } from 'react-router-dom';
+  <Link to="/">Home</Link> | <Link to="/newticket">Create Ticket</Link>;
 
 
 function App(){

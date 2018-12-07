@@ -7,7 +7,6 @@ function Content() {
   return(
     <div>
       <P5Wrapper sketch={sketch} />
-      <P5Wrapper sketch={sketch} />
     </div>
   );
 }
