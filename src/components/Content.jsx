@@ -1,13 +1,14 @@
-import P5Wrapper from 'react-p5-wrapper';
 import React from 'react';
+import sketch from './Sketch';
+import P5Wrapper from 'react-p5-wrapper';
 
 function Content() {
 
-    return(
-        <div>
-            test
-        </div>
-    )
+  return(
+    <div>
+      <P5Wrapper sketch={sketch} />
+    </div>
+  );
 }
 
 export default Content;
