@@ -1,38 +1,46 @@
-import { DNA } from '../models/dna';
 import { Rocket } from '../models/rocket';
+
+export class GlobalSketchVars{
+  constructor() {
+    this.CANVAS_HEIGHT = 400;
+    this.CANVAS_WIDTH = 800;
+    this.POPULATION_SIZE = 25;
+    this.LIFESPAN = 200;
+    this.COUNT = 0;
+    this.ROCKETS = [];
+  }
+}
 
 export default function sketch(p) {
   console.log(p);
-  let rotation = 0;
-  let newDNA = new DNA();
-  let rockets = [];
-  const CANVAS_HEIGHT = 400;
-  const CANVAS_WIDTH = 800;
-  const POPULATION_SIZE = 25;
+  let gVars = new GlobalSketchVars();
   p.setup = function () {
-    p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
     p.population();
-    console.log(rockets);
+    console.log(gVars.ROCKETS);
   };
-
-  p.population = function() {
-    for(let i = 0; i < POPULATION_SIZE; i++) {
-      rockets[i] = new Rocket(p);
+  
+  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+    if (props.rotation){
+      rotation = props.rotation * Math.PI / 180;
     }
-  }
+  };
+  
+  p.population = function() {
+    for(let i = 0; i < gVars.POPULATION_SIZE; i++) {
+      gVars.ROCKETS[i] = new Rocket(p, gVars.LIFESPAN);
+    }
+  };
     
   p.draw = function() {
     p.background(170);
     p.fill(255, 204, 0);
-    // console.log(rockets[0].pos.x, rockets[0].pos.y);
-    for(let i = 0; i < rockets.length; i++) {
-      rockets[i].update();
-      rockets[i].show();
+    // console.log(gVars.ROCKETS[0].pos.x, gVars.ROCKETS[0].pos.y);
+    for(let i = 0; i < gVars.ROCKETS.length; i++) {
+      gVars.ROCKETS[i].update(gVars.COUNT);
+      gVars.ROCKETS[i].show();
     }
+    gVars.COUNT++;
   };
 }
-                      // p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-                      //   if (props.rotation){
-                      //     rotation = props.rotation * Math.PI / 180;
-                      //   }
-                      // };

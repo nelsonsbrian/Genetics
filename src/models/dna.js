@@ -1,9 +1,10 @@
-export class DNA{
-  constructor() {
-    this.x = Math.random() * 200;
-    this.y = 200;
-    this.w = 100;
-    this.h = 50;
-    this.mode = 0;
+export class DNA {
+  constructor(p, lifespan) {
+    this.genes = [];
+    console.log(lifespan);
+    for (let i = 0; i < lifespan; i++) {
+      this.genes[i] = p.createVector(p.random(-1, 1), p.random(-1, 1));
+      this.genes[i].setMag(0.2);
+    }
   }
 }
