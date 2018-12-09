@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 /*! p5.dom.js v0.3.4 Jan 19, 2017 */
 /**
  * <p>The web is much more than just canvas and p5.dom makes it easy to interact
@@ -2927,3 +2929,5 @@
     this.data = undefined;
   };
 });
+
+/*eslint-enable */

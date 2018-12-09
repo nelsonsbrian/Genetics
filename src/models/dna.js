@@ -11,7 +11,6 @@ export class DNA {
       genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
       genes[i].setMag(0.2);
     }
-    console.log("first dna");
     return genes;
   }
 
@@ -28,5 +27,15 @@ export class DNA {
     }
     return new DNA(this.p, this.lifespan, newGenes);
   }
+
+  mutation() {
+    for (let i = 0; i < this.genes.length; i++) {
+      if (Math.random() < 0.01) {
+        this.genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
+        this.genes[i].setMag(0.2);        
+      }
+    }
+  }
+
 
 }

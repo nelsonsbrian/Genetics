@@ -1,28 +1,49 @@
 import { Rocket } from '../models/rocket';
 
-export class GlobalSketchVars {
-  constructor() {
-    this.CANVAS_HEIGHT = 400;
-    this.CANVAS_WIDTH = 800;
-    this.POPULATION_SIZE = 25;
-    this.LIFESPAN = 200;
+export let GlobbalSketchVest = {
+  CANVAS_HEIGHT: 400,
+  CANVAS_WIDTH: 800,
+  POPULATION_SIZE: 25,
+  LIFESPAN: 300,
+  COUNT: 0,
+  ROCKETS: [],
+  GENERATION: 1,
+  MAX_FIT: 0,
+  AVG_FIT: 0,
+  restart: function() {
     this.COUNT = 0;
     this.ROCKETS = [];
-    this.GENERATION = 0;
+    this.GENERATION = 1;
+    this.MAX_FIT = 0;
+    this.AVG_FIT = 0;
   }
-}
+};
 
 export default function sketch(p) {
-  let lifeP, generationP;
-  let gVars = new GlobalSketchVars();
+  console.log(p);
+  let lifeP, generationP, maxFit, avgFit;
+  GlobbalSketchVest.restart();
+  let gVars = Object.assign({}, GlobbalSketchVest);
   let target = p.createVector(50, 50);
   let matingPool = [];
+  let totalDist = 0;
+
+  let rect = {
+    x: 350,
+    y: 100,
+    w: 20,
+    h: 200
+  };
+
 
   p.setup = function () {
     lifeP = p.createP();
     generationP = p.createP();
+    maxFit = p.createP();
+    avgFit = p.createP();
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
     p.createFirstPopulation();
+    p.updateStats();
   };
 
   // p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -35,13 +56,13 @@ export default function sketch(p) {
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       gVars.ROCKETS[i] = new Rocket(p, gVars.LIFESPAN);
     }
-  }
+  };
   
   p.performSelection = function() {
     let maxFit = 0;
     matingPool = [];
     for (let i = 0; i < gVars.ROCKETS.length; i++) {
-      gVars.ROCKETS[i].calcFitness(target);
+      gVars.ROCKETS[i].calcFitness(target, gVars.COUNT);
     }
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       if (gVars.ROCKETS[i].fitness > maxFit) {
@@ -57,6 +78,9 @@ export default function sketch(p) {
         matingPool.push(gVars.ROCKETS[i]);
       }
     }
+    gVars.MAX_FIT = maxFit;
+    totalDist += maxFit;
+    gVars.AVG_FIT = totalDist / gVars.GENERATION; 
   };
   
   p.endOfLife = function() {
@@ -65,30 +89,42 @@ export default function sketch(p) {
       let parentADNA = p.random(matingPool).dna;
       let parentBDNA = p.random(matingPool).dna;
       let childDNA = parentADNA.crossOver(parentBDNA);
+      childDNA.mutation();
       newRockets[i] = new Rocket(p, gVars.LIFESPAN, childDNA);
     }
     gVars.ROCKETS = newRockets;
-    gVars.GENERATION++;
   };
 
+  p.updateStats = function () {
+    maxFit.html('Last Fitness: ' + gVars.MAX_FIT);
+    // p.createP().html("Last Distance: " + gVars.MAX_FIT);
+    avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);    
+    generationP.html('Generation: ' + gVars.GENERATION);
+  };
+  
   p.draw = function () {
+    
+    for (let a= 0; a< 2; a ++) {
 
-    p.background(170);
-    p.fill(255, 204, 0);
-    p.ellipse(target.x, target.y, 16, 16);
-    generationP.html("Generation: " + gVars.GENERATION);
-    lifeP.html("Lifespan: " + gVars.COUNT);
-
-    gVars.COUNT++;
-    if (gVars.COUNT === gVars.LIFESPAN) {
-      p.performSelection();
-      p.endOfLife();
-      gVars.COUNT = 0;
-    }
-
-    for (let i = 0; i < gVars.ROCKETS.length; i++) {
-      gVars.ROCKETS[i].update(gVars.COUNT);
-      gVars.ROCKETS[i].show();
+      p.background(170);
+      p.fill(255, 204, 0);
+      p.rect(rect.x, rect.y, rect.w, rect.h);
+      p.ellipse(target.x, target.y, 16, 16);
+      p.fill(255, 0, 0);
+      gVars.COUNT++;
+      if (gVars.COUNT >= gVars.LIFESPAN) {
+        p.performSelection();
+        p.endOfLife();
+        p.updateStats();
+        gVars.GENERATION++;
+        gVars.COUNT = 0;
+      }
+      
+      for (let i = 0; i < gVars.ROCKETS.length; i++) {
+        gVars.ROCKETS[i].update(gVars.COUNT, target, rect);
+        gVars.ROCKETS[i].show();
+      }
+      lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
     }
   };
 }
