@@ -2,23 +2,35 @@
 import { DNA } from './dna';
 
 export class Rocket {
-  constructor(p, lifespan) {
+  constructor(p, lifespan, newDNA) {
     this.p = p;
     this.h = 25;
     this.w = 5;
-
     this.horiz = 0;
     this.vert = 0;
-    this.pos = p.createVector(p.width/2, p.height);
+    this.pos = p.createVector(p.width / 2, p.height);
     this.vel = p.createVector();
     this.acc = p.createVector();
     this.speed = Math.random() * 4;
-    this.dna = new DNA(p, lifespan);
+    this.dna = newDNA || new DNA(p, lifespan);
+    // if (newDNA) {
+    //   this.dna = newDNA;
+    // } else {
+    //   this.dna = new DNA(p, lifespan);
+    // }
+    this.fitness = 0;
   }
 
   applyForce(force) {
     this.acc.add(force);
   }
+
+  calcFitness(target) {
+    let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
+    this.fitness = this.p.map(distance, 0, this.p.width, this.p.width, 0);
+  }
+
+
 
   update(count) {
     this.applyForce(this.dna.genes[count]);

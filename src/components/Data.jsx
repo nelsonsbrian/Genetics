@@ -20,7 +20,7 @@ class Data extends React.Component {
   render() {
     return (
       <div>
-        count: {this.state.RocketVariables.COUNT}
+        {/* count: {this.state.RocketVariables.COUNT} */}
         <P5Wrapper sketch={sketch} />
         <DisplayData />
       </div>
