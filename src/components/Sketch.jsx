@@ -13,9 +13,10 @@ export class GlobalSketchVars{
 
 export default function sketch(p) {
   console.log(p);
+  let lifeP;
   let gVars = new GlobalSketchVars();
   p.setup = function () {
-    
+    // lifeP = p.createP();
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
     p.population();
     console.log(gVars.ROCKETS);
@@ -34,8 +35,10 @@ export default function sketch(p) {
   };
     
   p.draw = function() {
+    p.createDiv("test");
     p.background(170);
     p.fill(255, 204, 0);
+    // lifeP.html(gVars.COUNT);
     // console.log(gVars.ROCKETS[0].pos.x, gVars.ROCKETS[0].pos.y);
     for(let i = 0; i < gVars.ROCKETS.length; i++) {
       gVars.ROCKETS[i].update(gVars.COUNT);

@@ -14,7 +14,7 @@ class Data extends React.Component {
         COUNT: GlobalSketchVars.COUNT,
         ROCKETS: GlobalSketchVars.ROCKETS
       }
-    }
+    };
     console.log(this.state);
   }
   render() {
