@@ -1,4 +1,4 @@
-import { Rocket } from '../models/rocket';
+import { Rocket } from '../models/Rockets/rocket';
 
 export let GlobbalSketchVest = {
   CANVAS_HEIGHT: 400,
