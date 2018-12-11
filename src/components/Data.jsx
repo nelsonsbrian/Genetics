@@ -1,6 +1,6 @@
 import React from 'react';
 import DisplayData from './DisplayData';
-import sketch, { GlobalSketchVars } from './Sketch';
+import RocketGA, { GlobalSketchVars } from './RocketGA';
 import ToBe from './ToBe';
 import P5Wrapper from 'react-p5-wrapper';
 import ChangeTest from './ChangeTest';
@@ -10,9 +10,9 @@ class Data extends React.Component {
     super(props);
     this.state = {
       currentTest: null,
-      nextTest: "sketch",
+      nextTest: "RocketGA",
       tests: {
-        "sketch": sketch,
+        "RocketGA": RocketGA,
         "ToBe": ToBe
       },
     };
@@ -38,7 +38,7 @@ class Data extends React.Component {
           <label>
             Pick your favorite flavor:
           <select onChange={this.handleChange}>
-              <option value="sketch">genetic algorithm</option>
+              <option value="RocketGA">genetic algorithm</option>
               <option value="ToBe">ToBe</option>
             </select>
           </label>

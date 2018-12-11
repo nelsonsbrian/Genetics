@@ -1,4 +1,5 @@
 import { Rocket } from '../models/Rockets/rocket';
+import { RocketIteration } from '../models/Iterations/iterations';
 
 export let GlobbalSketchVest = {
   CANVAS_HEIGHT: 400,
@@ -10,16 +11,17 @@ export let GlobbalSketchVest = {
   GENERATION: 1,
   MAX_FIT: 0,
   AVG_FIT: 0,
-  restart: function() {
+  restart: function () {
     this.COUNT = 0;
     this.ROCKETS = [];
     this.GENERATION = 1;
     this.MAX_FIT = 0;
     this.AVG_FIT = 0;
-  }
+  },
+  rocketIterations: []
 };
 
-export default function sketch(p) {
+export default function RocketGA(p) {
   console.log(p);
   let lifeP, generationP, maxFit, avgFit;
   GlobbalSketchVest.restart();
@@ -51,14 +53,14 @@ export default function sketch(p) {
   //     rotation = props.rotation * Math.PI / 180;
   //   }
   // };
-  p.createFirstPopulation = function() {
+  p.createFirstPopulation = function () {
     gVars.ROCKETS = [];
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       gVars.ROCKETS[i] = new Rocket(p, gVars.LIFESPAN);
     }
   };
-  
-  p.performSelection = function() {
+
+  p.performSelection = function () {
     let maxFit = 0;
     matingPool = [];
     for (let i = 0; i < gVars.ROCKETS.length; i++) {
@@ -80,10 +82,10 @@ export default function sketch(p) {
     }
     gVars.MAX_FIT = maxFit;
     totalDist += maxFit;
-    gVars.AVG_FIT = totalDist / gVars.GENERATION; 
+    gVars.AVG_FIT = totalDist / gVars.GENERATION;
   };
-  
-  p.endOfLife = function() {
+
+  p.endOfLife = function () {
     let newRockets = [];
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       let parentADNA = p.random(matingPool).dna;
@@ -98,13 +100,28 @@ export default function sketch(p) {
   p.updateStats = function () {
     maxFit.html('Last Fitness: ' + gVars.MAX_FIT);
     // p.createP().html("Last Distance: " + gVars.MAX_FIT);
-    avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);    
+    avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);
     generationP.html('Generation: ' + gVars.GENERATION);
   };
   
+  p.calcStats = function () {
+    let totalCrashed = 0;
+    let totalCompleted = 0;
+    let statAvgFitness = 0;
+    for (let i = 0; i < gVars.ROCKETS.length; i++) {
+      // console.log(gVars.ROCKETS[i].crashed);
+      gVars.ROCKETS[i].crashed ? totalCrashed++ : null;
+      gVars.ROCKETS[i].completed ? totalCompleted++ : null;
+      statAvgFitness += gVars.ROCKETS[i].fitness;
+    }
+    statAvgFitness /= gVars.ROCKETS.length;
+    GlobbalSketchVest.rocketIterations.push(new RocketIteration(gVars.ROCKETS.length, totalCrashed, totalCompleted, statAvgFitness));
+    console.log(statAvgFitness);
+  }
+
   p.draw = function () {
-    
-    for (let a= 0; a< 2; a ++) {
+
+    for (let a = 0; a < 2; a++) {
 
       p.background(170);
       p.fill(255, 204, 0);
@@ -113,13 +130,14 @@ export default function sketch(p) {
       p.fill(255, 0, 0);
       gVars.COUNT++;
       if (gVars.COUNT >= gVars.LIFESPAN) {
+        p.calcStats();
         p.performSelection();
-        p.endOfLife();
         p.updateStats();
+        p.endOfLife();
         gVars.GENERATION++;
         gVars.COUNT = 0;
       }
-      
+
       for (let i = 0; i < gVars.ROCKETS.length; i++) {
         gVars.ROCKETS[i].update(gVars.COUNT, target, rect);
         gVars.ROCKETS[i].show();

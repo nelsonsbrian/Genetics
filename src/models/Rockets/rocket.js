@@ -9,7 +9,6 @@ export class Rocket {
     this.pos = p.createVector(p.width / 2, p.height - 2);
     this.vel = p.createVector();
     this.acc = p.createVector();
-    this.speed = Math.random() * 4;
     this.dna = newDNA || new DNA(p, lifespan);
     this.fitness = 0;
     this.completed = false;

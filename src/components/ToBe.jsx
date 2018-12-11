@@ -1,4 +1,4 @@
-import { GlobbalSketchVest } from './Sketch';
+import { GlobbalSketchVest } from './RocketGA';
 import { Population } from '../models/ToBe/population';
 
 export default function ToBe(p) {
