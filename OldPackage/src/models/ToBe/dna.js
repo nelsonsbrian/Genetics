@@ -23,7 +23,7 @@ export class ToBeDNA {
       // console.log(this.genes);
       // Pick from range of chars
     }
-    this.fitness= 0;
+    this.fitness;
   }
 
   // Converts character array to a String
@@ -32,7 +32,7 @@ export class ToBeDNA {
   }
 
   // Fitness function (returns floating point % of "correct" characters)
-  calcDnaFitness(target) {
+  fitness(target) {
     let score = 0;
     for (let i = 0; i < this.genes.length; i++) {
       if (this.genes[i] === target[i]) {

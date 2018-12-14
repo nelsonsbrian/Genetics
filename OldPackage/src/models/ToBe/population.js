@@ -27,7 +27,7 @@ export class Population {
   // Fill our fitness array with a value for every member of the population
   calcFitness() {
     for (let i = 0; i < this.population.genes.length; i++) {
-      this.population.genes[i].calcDnaFitness(this.target);
+      this.population.genes[i].fitness(this.target);
     }
   }
 
