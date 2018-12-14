@@ -39,10 +39,10 @@ export default function RocketGA(p) {
 
 
   p.setup = function () {
-    // lifeP = p.createP();
-    // generationP = p.createP();
-    // maxFit = p.createP();
-    // avgFit = p.createP();
+    lifeP = p.createP();
+    generationP = p.createP();
+    maxFit = p.createP();
+    avgFit = p.createP();
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
     p.createFirstPopulation();
     p.updateStats();
@@ -98,10 +98,10 @@ export default function RocketGA(p) {
   };
 
   p.updateStats = function () {
-    // maxFit.html('Last Fitness: ' + gVars.MAX_FIT);
-    // p.createP().html("Last Distance: " + gVars.MAX_FIT);
-    // avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);
-    // generationP.html('Generation: ' + gVars.GENERATION);
+    maxFit.html('Last Fitness: ' + gVars.MAX_FIT);
+    p.createP().html("Last Distance: " + gVars.MAX_FIT);
+    avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);
+    generationP.html('Generation: ' + gVars.GENERATION);
   };
   
   p.calcStats = function () {
@@ -143,7 +143,7 @@ export default function RocketGA(p) {
         gVars.ROCKETS[i].update(gVars.COUNT, target, rect);
         gVars.ROCKETS[i].show();
       }
-      // lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
+      lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
     }
   };
 }
