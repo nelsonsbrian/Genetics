@@ -15,13 +15,11 @@ class Data extends React.Component {
         "RocketGA": RocketGA,
         "ToBe": ToBe
       },
+      iterations: [],
+      this.handleSubmit = this.handleSubmit.bind(this);
     };
-    this.sampleButton = this.sampleButton.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-  sampleButton() {
-    this.setState({ test: !this.state.test });
+    this.handleIterations = this.handleIterations.bind(this);
   }
   handleChange(event) {
     this.setState({nextTest: event.target.value })
@@ -31,10 +29,18 @@ class Data extends React.Component {
     this.setState({ currentTest: this.state.nextTest })
     // console.log(this.state.currentTest);
   }
+  handleIterations(newIteration) {
+    const newState = [...this.state.iterations, newIteration];
+    this.setState({ iterations: newState});
+    console.log(this.state.iterations);
+  }
+
   render() {
+    const {nextTest, tests, currentTest, iterations} = this.state;
     return (
       <div>
-        <form value={this.state.nextTest} onSubmit={this.handleSubmit}>
+        <button onClick={this.testFunc}>click</button>
+        <form value={nextTest} onSubmit={this.handleSubmit}>
           <label>
             Pick your favorite flavor:
           <select onChange={this.handleChange}>
@@ -44,15 +50,8 @@ class Data extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-
-
-        {/* {console.log(this.state.currentTest)} */}
-        <button onClick={this.sampleButton}>Change Test</button>
-        {/* count: {this.state.RocketVariables.COUNT} */}
-        {/* {console.log(this.state.tests[this.state.currentTest])}; */}
-        {this.state.currentTest ? <P5Wrapper sketch={this.state.tests[this.state.currentTest]} /> : null}
-
-        <DisplayData />
+        {this.state.currentTest ? <P5Wrapper sketch={tests[currentTest]} handleIterations={this.handleIterations}/> : null}
+        <DisplayData iterations={iterations}/>
         <ChangeTest />
       </div>
     );

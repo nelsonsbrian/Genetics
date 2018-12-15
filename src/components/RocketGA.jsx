@@ -29,7 +29,7 @@ export default function RocketGA(p) {
   let target = p.createVector(50, 50);
   let matingPool = [];
   let totalDist = 0;
-
+  let recievedProps;
   let rect = {
     x: 350,
     y: 100,
@@ -48,11 +48,10 @@ export default function RocketGA(p) {
     p.updateStats();
   };
 
-  // p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-  //   if (props.rotation) {
-  //     rotation = props.rotation * Math.PI / 180;
-  //   }
-  // };
+  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+    recievedProps = props;
+  };
+
   p.createFirstPopulation = function () {
     gVars.ROCKETS = [];
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
@@ -116,8 +115,11 @@ export default function RocketGA(p) {
       statAvgFitness += gVars.ROCKETS[i].fitness;
     }
     statAvgFitness /= gVars.ROCKETS.length;
-    GlobbalSketchVest.rocketIterations.push(new RocketIteration(gVars.ROCKETS.length, totalCrashed, totalCompleted, statAvgFitness));
-    console.log(statAvgFitness);
+    const newIt = new RocketIteration(gVars.ROCKETS.length, totalCrashed, totalCompleted, statAvgFitness);
+    recievedProps.handleIterations(newIt);
+    // props.handleIterations(newIt);
+    GlobbalSketchVest.rocketIterations.push(newIt);
+    // console.log(GlobbalSketchVest.rocketIterations);
   }
 
   p.draw = function () {
