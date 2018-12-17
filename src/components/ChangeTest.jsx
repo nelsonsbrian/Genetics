@@ -40,7 +40,7 @@ class ChangeTest extends React.Component {
   render() {
     return (
       <div>
-        {"Count: " + GlobbalSketchVest.COUNT}
+        {/* {"Count: " + GlobbalSketchVest.COUNT}
         {this.state.content}
         <form onSubmit={this.reRunTest}>
           Enter LifeSpan:
@@ -56,7 +56,7 @@ class ChangeTest extends React.Component {
           <button className="btn btn-primary" type="submit">
             Post
           </button>
-        </form>
+        </form> */}
       </div>
     );
   }

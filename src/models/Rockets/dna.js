@@ -9,7 +9,7 @@ export class DNA {
     let genes = [];
     for (let i = 0; i < this.lifespan; i++) {
       genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
-      genes[i].setMag(0.2);
+      genes[i].setMag(0.1);
     }
     return genes;
   }
@@ -17,9 +17,11 @@ export class DNA {
 
   crossOver(otherDNA) {
     let newGenes = [];
-    let mid = Math.floor(Math.random() * this.genes.length);
+    // let mid = Math.floor(Math.random() * this.genes.length);
+    let mid = Math.random();
     for (let i = 0; i < this.genes.length; i++) {
-      if (i > mid) {
+      if (Math.random() > .50) {
+      // if (i > mid) {
         newGenes[i] = this.genes[i];
       } else {
         newGenes[i] = otherDNA.genes[i];
@@ -30,7 +32,7 @@ export class DNA {
 
   mutation() {
     for (let i = 0; i < this.genes.length; i++) {
-      if (Math.random() < 0.01) {
+      if (Math.random() < 0.05) {
         this.genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
         this.genes[i].setMag(0.2);        
       }

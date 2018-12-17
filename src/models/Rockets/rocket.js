@@ -14,6 +14,7 @@ export class Rocket {
     this.completed = false;
     this.crashed = false;
     this.count = lifespan;
+    this.lifespan = lifespan;
   }
 
   applyForce(force) {
@@ -24,33 +25,36 @@ export class Rocket {
     let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
     this.fitness = this.p.map(distance, 0, this.p.width, this.p.width, 0);
     if (this.completed) {
-      this.fitness *= 20 * (1 / this.count);
+      this.fitness = this.fitness * 5 * (this.lifespan / this.count);
+      console.log("completed at ", distance, this.count, this.fitness);
     } else if (this.crashed) {
-      this.fitness /= 10 * this.count / 2;
+      this.fitness = this.fitness / 5 * (this.count / this.lifespan);
+      console.log("crashed at ", distance, this.count, this.fitness);
     } else {
-      this.fitness *= (1 / this.count);
+      this.fitness = this.fitness;
+      console.log("other at ", distance, this.count, this.fitness);
     }
   }
 
   update(count, target, rect) {
-    let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
-    if (distance < 10) {
-      this.completed = true;
-      this.count = count;
-      this.pos = target.copy();
-    }
-
-    if (this.pos.x > rect.x && this.pos.x < rect.x + rect.w && this.pos.y > rect.y && this.pos.y < rect.y + rect.h) {
-      this.crashed = true;
-      this.count = count;
-    }
-    if (this.pos.x > this.p.width || this.pos.x < 0 || this.pos.y > this.p.height || this.pos.y < 0) {
-      this.crashed = true;
-      this.count = count;
-    }
-
-    this.applyForce(this.dna.genes[count]);
     if (!this.completed && !this.crashed) {
+      let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
+      if (distance < 15) {
+        this.completed = true;
+        this.count = count;
+        this.pos = target.copy();
+      }
+
+      if (this.pos.x > rect.x && this.pos.x < rect.x + rect.w && this.pos.y > rect.y && this.pos.y < rect.y + rect.h) {
+        this.crashed = true;
+        this.count = count;
+      }
+      if (this.pos.x > this.p.width || this.pos.x < 0 || this.pos.y > this.p.height || this.pos.y < 0) {
+        this.crashed = true;
+        this.count = count;
+      }
+
+      this.applyForce(this.dna.genes[count]);
       this.vel.add(this.acc);
       this.pos.add(this.vel);
       this.acc.mult(0);

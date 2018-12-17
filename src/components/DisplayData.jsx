@@ -1,12 +1,36 @@
 import React from 'react';
 
-function DisplayData(props) {
-  return(
-    <div>
-      {props.iterations.map((iteration, index) => (
-        <h6 key={index}>{index + 1}: population {iteration.totalPop} avgfit{iteration.averageFitness}, totComp{iteration.totalCompleted}, totcrash{iteration.totalCrashed}, totalNoCom{iteration.totalNoComplete}}</h6>
 
-      ))}
+function DisplayData(props) {
+  return (
+    <div>
+
+      {props.iterations.length > 0 ?
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Generation</th>
+              <th scope="col">Population</th>
+              <th scope="col">Fitness</th>
+              <th scope="col">NoComplete</th>
+              <th scope="col">Complete</th>
+              <th scope="col">Crashed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.iterations.map((iteration) => (
+              <tr key={iteration.generation}>
+                <td>{iteration.generation}</td>
+                <td>{iteration.totalPop}</td>
+                <td>{iteration.averageFitness}</td>
+                <td>{iteration.totalNoComplete}</td>
+                <td>{iteration.totalCompleted}</td>
+                <td>{iteration.totalCrashed}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        : null}
     </div>
   );
 }

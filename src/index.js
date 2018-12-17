@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 import './p5/p5.dom.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 
