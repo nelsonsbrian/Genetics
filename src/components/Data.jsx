@@ -10,25 +10,17 @@ class Data extends React.Component {
     super(props);
     this.state = {
       currentTest: null,
-      nextTest: "RocketGA",
       tests: {
         "RocketGA": RocketGA,
         "ToBe": ToBe
       },
       iterations: [],
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTestClick = this.handleTestClick.bind(this);
     this.handleIterations = this.handleIterations.bind(this);
   }
-  handleChange(event) {
-    this.setState({ nextTest: event.target.value })
-  }
-  handleSubmit(event) {
-    // event.preventDefault();
-    console.log(event.target.value);
-    this.setState({ currentTest: event.target.value })
-    // console.log(this.state.currentTest);
+  handleTestClick(testString) {
+    this.setState({ currentTest: testString })
   }
   handleIterations(newIteration) {
     const newState = [...this.state.iterations, newIteration];
@@ -36,32 +28,43 @@ class Data extends React.Component {
   }
 
   render() {
-    const { nextTest, tests, currentTest, iterations } = this.state;
+    const { tests, currentTest, iterations } = this.state;
     return (
       <div className='container'>
         <style jsx>{`
             .col {
-              display: inline-block;
-              border: 1px white solid;
+              display: block;
 
+            }
+            .test-class {
+              cursor: pointer;
+              color: white;
+              background: #9D5A63;
+              width: 150px;
+              padding: 5px 20px 5px 20px;              
+              word-spacing: 50px;
+              margin: 0 30px 30px 0;
+              display: inline-block;
+            }
+            .test-class:hover {
+              text-decoration: underline;
+              font-weight: bold;
+              color: #F39E02;
+              background: rgb(100, 78, 91);
+            }
+            .test-link {
+              margin: 25px 25px 25px 25px;
+              width: 100%;
+            }
+            .row {
+              padding-left: 38px;
             }
 
           `}</style>
         <div className='row'>
-
+          <h3 className='test-link'><span className='test-class' onClick={() => this.handleTestClick('RocketGA')}>Rockets</span><span className='test-class' onClick={() => this.handleTestClick('ToBe')}>ToBe</span></h3>
           <div className='col'>
-          <h3><span className='test-class' value='RocketGA' onClick={this.handleSubmit}>Rockets</span> | <span className='test-class' value='ToBe' onClick={this.handleSubmit}>ToBe</span></h3>
 
-            {/* <form value={nextTest} onSubmit={this.handleSubmit}>
-              <label>
-                Pick your favorite flavor:
-                <select onChange={this.handleChange}>
-                  <option value="RocketGA">genetic algorithm</option>
-                  <option value="ToBe">ToBe</option>
-                </select>
-              </label>
-              <input type="submit" value="Submit" />
-            </form> */}
             {this.state.currentTest ? <P5Wrapper sketch={tests[currentTest]} handleIterations={this.handleIterations} /> : null}
           </div>
           <div className='col'>

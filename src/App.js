@@ -11,8 +11,8 @@ class App extends Component {
     <div className="App">
     <style jsx>{`
       body {
-        background: black;
-        color: yellow;
+        background: #314455;
+        color: #F39E02;
         text-align: center;
         font-family: 'Atomic Age', cursive;
       }

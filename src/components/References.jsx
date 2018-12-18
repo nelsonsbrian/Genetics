@@ -9,6 +9,21 @@ function Reference() {
           color: white;
           text-align: left;
           font-family: sans-serif;
+          margin: 20px 0px 40px 0px;
+          padding: 15px 20px 15px 20px;
+          color: #97AABD;
+          border: 5px #9D5A63 solid;
+          background: rgba(0,0,0,.1);
+        }
+        h2 {
+          text-decoration: underline;
+          font-size: 46px;
+        }
+        h3 {
+          color: #69B5A3
+        }
+        p, h2, h3 {
+          cursor: default;
         }
       `}</style>
       <h2>References</h2>
