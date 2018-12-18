@@ -12,14 +12,17 @@ function Header() {
         h1 {
           font-size: 75px;
           margin: 20px 60px 20px 60px;
-          padding: 5px 20px 5px 20px;
+          padding: 5px 0px 5px 0px;
           border: 5px #9D5A63 solid;
           background: rgba(0,0,0,.3);
+          text-shadow: black 4px 4px 0px;
         }
         .link-class {
+          display: inline-block;
           color: white;
           background: #9D5A63;
-          padding: 5px 20px 5px 20px;
+          text-shadow: black 2px 2px 0px;
+          padding: 5px 0px 5px 0px;
           width: 150px;
         }
         .link-class:hover {

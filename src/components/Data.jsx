@@ -43,8 +43,9 @@ class Data extends React.Component {
               width: 150px;
               padding: 5px 20px 5px 20px;              
               word-spacing: 50px;
-              margin: 0 30px 30px 0;
+              margin: 0 30px 0px 30px;
               display: inline-block;
+              text-shadow: black 2px 2px 0px;
             }
             .test-class:hover {
               text-decoration: underline;
@@ -57,15 +58,25 @@ class Data extends React.Component {
               width: 100%;
             }
             .row {
-              padding-left: 38px;
+              // padding-left: 38px;
+            
             }
+            .canvas-style {
+              // width: 100px;
+              // height:100px;
+              // margin: 0px auto;
+
+            }
+
 
           `}</style>
         <div className='row'>
           <h3 className='test-link'><span className='test-class' onClick={() => this.handleTestClick('RocketGA')}>Rockets</span><span className='test-class' onClick={() => this.handleTestClick('ToBe')}>ToBe</span></h3>
           <div className='col'>
+            <div className='canvas-style'>
 
             {this.state.currentTest ? <P5Wrapper sketch={tests[currentTest]} handleIterations={this.handleIterations} /> : null}
+            </div>
           </div>
           <div className='col'>
             <DisplayData iterations={iterations} />
