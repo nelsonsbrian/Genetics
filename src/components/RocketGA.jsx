@@ -4,7 +4,7 @@ import { RocketIteration } from '../models/Iterations/iterations';
 export let GlobbalSketchVest = {
   CANVAS_HEIGHT: 400,
   CANVAS_WIDTH: 800,
-  POPULATION_SIZE: 25,
+  POPULATION_SIZE: 500,
   LIFESPAN: 300,
   COUNT: 0,
   ROCKETS: [],
@@ -65,8 +65,6 @@ export default function RocketGA(p) {
     console.log("iteration", gVars.GENERATION)
     for (let i = 0; i < gVars.ROCKETS.length; i++) {
       gVars.ROCKETS[i].calcFitness(target, gVars.COUNT);
-    }
-    for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       if (gVars.ROCKETS[i].fitness > maxFit) {
         maxFit = gVars.ROCKETS[i].fitness;
       }
@@ -76,10 +74,10 @@ export default function RocketGA(p) {
     }
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       let n = gVars.ROCKETS[i].fitness * 100;
-      console.log(gVars.ROCKETS[i].fitness* 100);
       for (let j = 0; j < n; j++) {
         matingPool.push(gVars.ROCKETS[i]);
       }
+      // console.log(gVars.ROCKETS[i].fitness* 100, "pushed " + n + " copies", matingPool.length);
     }
     console.log(matingPool.length);
     gVars.MAX_FIT = maxFit;
@@ -90,11 +88,14 @@ export default function RocketGA(p) {
   p.endOfLife = function () {
     let newRockets = [];
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
-      let parentADNA = p.random(matingPool).dna;
-      let parentBDNA = p.random(matingPool).dna;
+      let a = p.random(matingPool);
+      let b = p.random(matingPool);
+      let parentADNA = a.dna;
+      let parentBDNA = b.dna;
 
       let childDNA = parentADNA.crossOver(parentBDNA);
-      // childDNA.mutation();
+      // console.log("a", a.fitness, "b", b.fitness);
+      childDNA.mutation();
       newRockets[i] = new Rocket(p, gVars.LIFESPAN, childDNA);
     }
     gVars.ROCKETS = newRockets;

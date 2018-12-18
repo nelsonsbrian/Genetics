@@ -25,14 +25,14 @@ export class Rocket {
     let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
     this.fitness = this.p.map(distance, 0, this.p.width, this.p.width, 0);
     if (this.completed) {
-      this.fitness = this.fitness * 5 * (this.lifespan / this.count);
-      console.log("completed at ", distance, this.count, this.fitness);
+      this.fitness = this.fitness * 20 * (this.lifespan / this.count);
+      // console.log("completed at ", distance, this.count, this.fitness);
     } else if (this.crashed) {
-      this.fitness = this.fitness / 5 * (this.count / this.lifespan);
-      console.log("crashed at ", distance, this.count, this.fitness);
+      this.fitness = (this.fitness / 20) * (this.count / this.lifespan);
+      // console.log("crashed at ", distance, this.count, this.fitness);
     } else {
       this.fitness = this.fitness;
-      console.log("other at ", distance, this.count, this.fitness);
+      // console.log("other at ", distance, this.count, this.fitness);
     }
   }
 
@@ -58,6 +58,7 @@ export class Rocket {
       this.vel.add(this.acc);
       this.pos.add(this.vel);
       this.acc.mult(0);
+      this.vel.limit(4);
     }
   }
 

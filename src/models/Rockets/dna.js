@@ -9,7 +9,7 @@ export class DNA {
     let genes = [];
     for (let i = 0; i < this.lifespan; i++) {
       genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
-      genes[i].setMag(0.1);
+      genes[i].setMag(0.2);
     }
     return genes;
   }
@@ -32,7 +32,8 @@ export class DNA {
 
   mutation() {
     for (let i = 0; i < this.genes.length; i++) {
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.001) {
+        console.log("                                                                  mutated");
         this.genes[i] = this.p.createVector(this.p.random(-1, 1), this.p.random(-1, 1));
         this.genes[i].setMag(0.2);        
       }
