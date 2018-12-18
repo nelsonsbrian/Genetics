@@ -25,8 +25,9 @@ class Data extends React.Component {
     this.setState({ nextTest: event.target.value })
   }
   handleSubmit(event) {
-    event.preventDefault();
-    this.setState({ currentTest: this.state.nextTest })
+    // event.preventDefault();
+    console.log(event.target.value);
+    this.setState({ currentTest: event.target.value })
     // console.log(this.state.currentTest);
   }
   handleIterations(newIteration) {
@@ -41,22 +42,26 @@ class Data extends React.Component {
         <style jsx>{`
             .col {
               display: inline-block;
-              background-color: lightblue;
+              border: 1px white solid;
+
             }
+
           `}</style>
         <div className='row'>
 
           <div className='col'>
-            <form value={nextTest} onSubmit={this.handleSubmit}>
+          <h3><span className='test-class' value='RocketGA' onClick={this.handleSubmit}>Rockets</span> | <span className='test-class' value='ToBe' onClick={this.handleSubmit}>ToBe</span></h3>
+
+            {/* <form value={nextTest} onSubmit={this.handleSubmit}>
               <label>
                 Pick your favorite flavor:
-          <select onChange={this.handleChange}>
+                <select onChange={this.handleChange}>
                   <option value="RocketGA">genetic algorithm</option>
                   <option value="ToBe">ToBe</option>
                 </select>
               </label>
               <input type="submit" value="Submit" />
-            </form>
+            </form> */}
             {this.state.currentTest ? <P5Wrapper sketch={tests[currentTest]} handleIterations={this.handleIterations} /> : null}
           </div>
           <div className='col'>

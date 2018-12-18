@@ -4,7 +4,9 @@ import React from 'react';
 function DisplayData(props) {
   return (
     <div>
-
+      <style jsx>{`
+        
+      `}</style>
       {props.iterations.length > 0 ?
         <table className="table">
           <thead>

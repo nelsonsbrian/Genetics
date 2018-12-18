@@ -4,6 +4,13 @@ function Reference() {
 
   return(
     <div>
+      <style jsx>{`
+        p {
+          color: white;
+          text-align: left;
+          font-family: sans-serif;
+        }
+      `}</style>
       <h2>References</h2>
       <h3>Artificial Neural Network</h3>
       <p>Artificial neural networks (ANN) or connectionist systems are computing systems vaguely inspired by the biological neural networks that constitute animal brains. The neural network itself is not an algorithm, but rather a framework for many different machine learning algorithms to work together and process complex data inputs. Such systems "learn" to perform tasks by considering examples, generally without being programmed with any task-specific rules. For example, in image recognition, they might learn to identify images that contain cats by analyzing example images that have been manually labeled as "cat" or "no cat" and using the results to identify cats in other images. They do this without any prior knowledge about cats, for example, that they have fur, tails, whiskers and cat-like faces. Instead, they automatically generate identifying characteristics from the learning material that they process.</p>

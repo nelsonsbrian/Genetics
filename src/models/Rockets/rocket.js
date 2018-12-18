@@ -28,7 +28,7 @@ export class Rocket {
       this.fitness = this.fitness * 20 * (this.lifespan / this.count);
       // console.log("completed at ", distance, this.count, this.fitness);
     } else if (this.crashed) {
-      this.fitness = (this.fitness / 20) * (this.count / this.lifespan);
+      this.fitness = (this.fitness / 2) * (this.count / this.lifespan);
       // console.log("crashed at ", distance, this.count, this.fitness);
     } else {
       this.fitness = this.fitness;
@@ -37,28 +37,30 @@ export class Rocket {
   }
 
   update(count, target, rect) {
-    if (!this.completed && !this.crashed) {
-      let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
-      if (distance < 15) {
-        this.completed = true;
-        this.count = count;
-        this.pos = target.copy();
-      }
+    if (this.p.dist(this.pos.x, this.pos.y, target.x, target.y)) {
+      if (!this.completed && !this.crashed) {
+        let distance = this.p.dist(this.pos.x, this.pos.y, target.x, target.y);
+        if (distance < 25) {
+          this.completed = true;
+          this.count = count;
+          this.pos = target.copy();
+        }
 
-      if (this.pos.x > rect.x && this.pos.x < rect.x + rect.w && this.pos.y > rect.y && this.pos.y < rect.y + rect.h) {
-        this.crashed = true;
-        this.count = count;
-      }
-      if (this.pos.x > this.p.width || this.pos.x < 0 || this.pos.y > this.p.height || this.pos.y < 0) {
-        this.crashed = true;
-        this.count = count;
-      }
+        if (this.pos.x > rect.x && this.pos.x < rect.x + rect.w && this.pos.y > rect.y && this.pos.y < rect.y + rect.h) {
+          this.crashed = true;
+          this.count = count;
+        }
+        if (this.pos.x > this.p.width || this.pos.x < 0 || this.pos.y > this.p.height || this.pos.y < 0) {
+          this.crashed = true;
+          this.count = count;
+        }
 
-      this.applyForce(this.dna.genes[count]);
-      this.vel.add(this.acc);
-      this.pos.add(this.vel);
-      this.acc.mult(0);
-      this.vel.limit(4);
+        this.applyForce(this.dna.genes[count]);
+        this.vel.add(this.acc);
+        this.pos.add(this.vel);
+        this.acc.mult(0);
+        this.vel.limit(4);
+      }
     }
   }
 

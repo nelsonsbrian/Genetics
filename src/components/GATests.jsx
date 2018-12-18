@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function GATests() {
 
   return (
     <div className='heading'>
@@ -23,4 +23,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default GATests;

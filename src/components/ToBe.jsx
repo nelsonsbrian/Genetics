@@ -9,7 +9,7 @@ export default function ToBe(p) {
 
   p.setup = function () {
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
-    target = "To be or not to be.";
+    target = "I love to play BONGO drums and drink beer.";
     mutationRate = 0.005;
     maxPop = 150;
 

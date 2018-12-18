@@ -4,7 +4,7 @@ import { RocketIteration } from '../models/Iterations/iterations';
 export let GlobbalSketchVest = {
   CANVAS_HEIGHT: 400,
   CANVAS_WIDTH: 800,
-  POPULATION_SIZE: 500,
+  POPULATION_SIZE: 25,
   LIFESPAN: 300,
   COUNT: 0,
   ROCKETS: [],
@@ -36,6 +36,7 @@ export default function RocketGA(p) {
     w: 20,
     h: 200
   };
+  let completed = false;
 
 
   p.setup = function () {
@@ -77,9 +78,9 @@ export default function RocketGA(p) {
       for (let j = 0; j < n; j++) {
         matingPool.push(gVars.ROCKETS[i]);
       }
-      // console.log(gVars.ROCKETS[i].fitness* 100, "pushed " + n + " copies", matingPool.length);
+      // console.log(gVars.ROCKETS[i].completed + "com", gVars.ROCKETS[i].crashed + "crash",gVars.ROCKETS[i].fitness* 100, "pushed " + n + " copies", matingPool.length);
     }
-    console.log(matingPool.length);
+    // console.log(matingPool.length);
     gVars.MAX_FIT = maxFit;
     totalDist += maxFit;
     gVars.AVG_FIT = totalDist / gVars.GENERATION;
@@ -87,6 +88,9 @@ export default function RocketGA(p) {
 
   p.endOfLife = function () {
     let newRockets = [];
+    if (matingPool.length / (gVars.POPULATION_SIZE * 100) > .95) {
+      completed = true;
+    }
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
       let a = p.random(matingPool);
       let b = p.random(matingPool);
@@ -95,7 +99,7 @@ export default function RocketGA(p) {
 
       let childDNA = parentADNA.crossOver(parentBDNA);
       // console.log("a", a.fitness, "b", b.fitness);
-      childDNA.mutation();
+      // childDNA.mutation();
       newRockets[i] = new Rocket(p, gVars.LIFESPAN, childDNA);
     }
     gVars.ROCKETS = newRockets;
@@ -134,7 +138,7 @@ export default function RocketGA(p) {
       p.background(170);
       p.fill(255, 204, 0);
       p.rect(rect.x, rect.y, rect.w, rect.h);
-      p.ellipse(target.x, target.y, 16, 16);
+      p.ellipse(target.x, target.y, 25, 25);
       p.fill(255, 0, 0);
       gVars.COUNT++;
       if (gVars.COUNT >= gVars.LIFESPAN) {
@@ -153,4 +157,5 @@ export default function RocketGA(p) {
       lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
     }
   };
+  if (completed) {console.log("test complete")};
 }

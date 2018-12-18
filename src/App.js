@@ -8,7 +8,15 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div className="App">
+    <div className="App">
+    <style jsx>{`
+      body {
+        background: black;
+        color: yellow;
+        text-align: center;
+        font-family: 'Atomic Age', cursive;
+      }
+    `}</style>
         <Header />
         <Switch>
           <Route exact path='/' component={Home} />
