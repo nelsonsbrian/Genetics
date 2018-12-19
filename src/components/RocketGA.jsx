@@ -23,7 +23,7 @@ export let GlobbalSketchVest = {
 
 export default function RocketGA(p) {
   console.log(p);
-  let lifeP, generationP, maxFit, avgFit, gameOver;
+  let lifeP, generationP, gameOver;
   GlobbalSketchVest.restart();
   let gVars = Object.assign({}, GlobbalSketchVest);
   let target = p.createVector(50, 50);
@@ -40,12 +40,11 @@ export default function RocketGA(p) {
   
 
   p.setup = function () {
-    lifeP = p.createP();
-    generationP = p.createP();
-    // maxFit = p.createP();
-    // avgFit = p.createP();
-    gameOver = p.createP();
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
+    const containerDiv = p.createDiv(null).addClass('canvas-info');
+    lifeP = p.createP().addClass('canvas-line').parent(containerDiv);
+    generationP = p.createP().addClass('canvas-line').parent(containerDiv);
+    gameOver = p.createP(null).addClass('canvas-line').parent(containerDiv);
     p.createFirstPopulation();
     p.updateStats();
   };
@@ -79,9 +78,7 @@ export default function RocketGA(p) {
       for (let j = 0; j < n; j++) {
         matingPool.push(gVars.ROCKETS[i]);
       }
-      // console.log(gVars.ROCKETS[i].completed + "com", gVars.ROCKETS[i].crashed + "crash",gVars.ROCKETS[i].fitness* 100, "pushed " + n + " copies", matingPool.length);
     }
-    // console.log(matingPool.length);
     gVars.MAX_FIT = maxFit;
     totalDist += maxFit;
     gVars.AVG_FIT = totalDist / gVars.GENERATION;
@@ -93,13 +90,12 @@ export default function RocketGA(p) {
       completed = true;
     }
     for (let i = 0; i < gVars.POPULATION_SIZE; i++) {
-      let a = p.random(matingPool);
+      const a = p.random(matingPool);
       let b = p.random(matingPool);
       let parentADNA = a.dna;
       let parentBDNA = b.dna;
 
       let childDNA = parentADNA.crossOver(parentBDNA);
-      // console.log("a", a.fitness, "b", b.fitness);
       childDNA.mutation();
       newRockets[i] = new Rocket(p, gVars.LIFESPAN, childDNA);
     }
@@ -107,9 +103,6 @@ export default function RocketGA(p) {
   };
 
   p.updateStats = function () {
-    // maxFit.html('Last Fitness: ' + gVars.MAX_FIT);
-    // p.createP().html("Last Distance: " + gVars.MAX_FIT);
-    // avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);
     generationP.html('Generation: ' + gVars.GENERATION);
   };
 
@@ -118,7 +111,6 @@ export default function RocketGA(p) {
     let totalCompleted = 0;
     let statAvgFitness = 0;
     for (let i = 0; i < gVars.ROCKETS.length; i++) {
-      // console.log(gVars.ROCKETS[i].crashed);
       /*eslint no-unused-expressions: [0, { "allowTernary": true }]*/
       gVars.ROCKETS[i].crashed ? totalCrashed++ : null;
       gVars.ROCKETS[i].completed ? totalCompleted++ : null;
@@ -127,15 +119,12 @@ export default function RocketGA(p) {
     statAvgFitness /= gVars.ROCKETS.length;
     const newIt = new RocketIteration(gVars.ROCKETS.length, totalCrashed, totalCompleted, statAvgFitness, gVars.GENERATION);
     recievedProps.handleIterations(newIt);
-    // props.handleIterations(newIt);
     GlobbalSketchVest.rocketIterations.push(newIt);
-    // console.log(GlobbalSketchVest.rocketIterations);
   }
 
   p.draw = function () {
     if (!completed) {
       for (let a = 0; a < 2; a++) {
-
         p.background(100, 78, 91);
         p.fill(105, 181, 163);
         p.rect(rect.x, rect.y, rect.w, rect.h);

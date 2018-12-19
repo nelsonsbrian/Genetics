@@ -18,6 +18,7 @@ function Reference() {
         h2 {
           text-decoration: underline;
           font-size: 46px;
+          text-shadow: black 4px 4px 0px;
         }
         h3 {
           color: #69B5A3

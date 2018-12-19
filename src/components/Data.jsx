@@ -33,8 +33,7 @@ class Data extends React.Component {
       <div className='container'>
         <style jsx>{`
             .col {
-              display: block;
-
+              display: inline-block;
             }
             .test-class {
               cursor: pointer;
