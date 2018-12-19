@@ -23,7 +23,7 @@ export let GlobbalSketchVest = {
 
 export default function RocketGA(p) {
   console.log(p);
-  let lifeP, generationP, maxFit, avgFit;
+  let lifeP, generationP, maxFit, avgFit, gameOver;
   GlobbalSketchVest.restart();
   let gVars = Object.assign({}, GlobbalSketchVest);
   let target = p.createVector(50, 50);
@@ -37,13 +37,14 @@ export default function RocketGA(p) {
     h: 200
   };
   let completed = false;
-
+  
 
   p.setup = function () {
     lifeP = p.createP();
     generationP = p.createP();
     // maxFit = p.createP();
     // avgFit = p.createP();
+    gameOver = p.createP();
     p.createCanvas(gVars.CANVAS_WIDTH, gVars.CANVAS_HEIGHT);
     p.createFirstPopulation();
     p.updateStats();
@@ -99,7 +100,7 @@ export default function RocketGA(p) {
 
       let childDNA = parentADNA.crossOver(parentBDNA);
       // console.log("a", a.fitness, "b", b.fitness);
-      // childDNA.mutation();
+      childDNA.mutation();
       newRockets[i] = new Rocket(p, gVars.LIFESPAN, childDNA);
     }
     gVars.ROCKETS = newRockets;
@@ -111,7 +112,7 @@ export default function RocketGA(p) {
     // avgFit.html('Avg Fitness: ' + GlobbalSketchVest.LIFESPAN);
     generationP.html('Generation: ' + gVars.GENERATION);
   };
-  
+
   p.calcStats = function () {
     let totalCrashed = 0;
     let totalCompleted = 0;
@@ -132,30 +133,33 @@ export default function RocketGA(p) {
   }
 
   p.draw = function () {
+    if (!completed) {
+      for (let a = 0; a < 2; a++) {
 
-    for (let a = 0; a < 2; a++) {
+        p.background(100, 78, 91);
+        p.fill(105, 181, 163);
+        p.rect(rect.x, rect.y, rect.w, rect.h);
+        p.ellipse(target.x, target.y, 25, 25);
+        p.fill(243, 158, 2);
+        gVars.COUNT++;
+        if (gVars.COUNT >= gVars.LIFESPAN) {
+          p.performSelection();
+          p.calcStats();
+          p.updateStats();
+          p.endOfLife();
+          gVars.GENERATION++;
+          gVars.COUNT = 0;
+        }
 
-      p.background(170);
-      p.fill(255, 204, 0);
-      p.rect(rect.x, rect.y, rect.w, rect.h);
-      p.ellipse(target.x, target.y, 25, 25);
-      p.fill(255, 0, 0);
-      gVars.COUNT++;
-      if (gVars.COUNT >= gVars.LIFESPAN) {
-        p.performSelection();
-        p.calcStats();
-        p.updateStats();
-        p.endOfLife();
-        gVars.GENERATION++;
-        gVars.COUNT = 0;
+        for (let i = 0; i < gVars.ROCKETS.length; i++) {
+          gVars.ROCKETS[i].update(gVars.COUNT, target, rect);
+          gVars.ROCKETS[i].show();
+        }
+        lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
       }
-
-      for (let i = 0; i < gVars.ROCKETS.length; i++) {
-        gVars.ROCKETS[i].update(gVars.COUNT, target, rect);
-        gVars.ROCKETS[i].show();
-      }
-      lifeP.html('Lifespan: ' + gVars.COUNT + ' / ' + gVars.LIFESPAN);
+    }
+    if (completed) { 
+      gameOver.html('End of Test!!')
     }
   };
-  if (completed) {console.log("test complete")};
 }
